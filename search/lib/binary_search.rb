@@ -3,7 +3,8 @@ class BinarySearch
     @list = list
   end
 
-  def search(item)
+  # NOTE: assumes sorted list
+  def iterative(item)
     max = list.size - 1
     min = 0
 
@@ -23,6 +24,10 @@ class BinarySearch
     end
 
     return false
+  end
+
+  def recursive(item)
+
   end
 
   private
