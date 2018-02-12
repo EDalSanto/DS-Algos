@@ -72,19 +72,19 @@ describe BinarySearch do
       end
 
       it "returns true if a number is found in the list" do
-        expect(BinarySearch.recursive(@nums, 2)).to eq(true)
+        expect(BinarySearch.recursive(@nums, 2, 0, @nums.size - 1)).to eq(true)
       end
 
       it "returns true if a number is found in the list" do
-        expect(BinarySearch.recursive(@nums, 5)).to eq(true)
+        expect(BinarySearch.recursive(@nums, 5, 0, @nums.size - 1)).to eq(true)
       end
 
       it "returns false if not found in the list" do
-        expect(BinarySearch.recursive(@nums, 30)).to eq(false)
+        expect(BinarySearch.recursive(@nums, 30, 0, @nums.size - 1)).to eq(false)
       end
 
       it "returns false if not found in the list" do
-        expect(BinarySearch.recursive(@nums, 11)).to eq(false)
+        expect(BinarySearch.recursive(@nums, 11, 0, @nums.size - 1)).to eq(false)
       end
     end
 
@@ -94,19 +94,19 @@ describe BinarySearch do
       end
 
       it "returns true if a number is found in the list" do
-        expect(BinarySearch.recursive(@nums, 2)).to eq(true)
+        expect(BinarySearch.recursive(@nums, 2, 0, @nums.size - 1)).to eq(true)
       end
 
       it "returns true if a number is found in the list" do
-        expect(BinarySearch.recursive(@nums, 5)).to eq(true)
+        expect(BinarySearch.recursive(@nums, 5, 0, @nums.size - 1)).to eq(true)
       end
 
       it "returns false if not found in the list" do
-        expect(BinarySearch.recursive(@nums, 30)).to eq(false)
+        expect(BinarySearch.recursive(@nums, 30, 0, @nums.size - 1)).to eq(false)
       end
 
       it "returns false if not found in the list" do
-        expect(BinarySearch.recursive(@nums, 11)).to eq(false)
+        expect(BinarySearch.recursive(@nums, 11, 0, @nums.size - 1)).to eq(false)
       end
     end
   end
