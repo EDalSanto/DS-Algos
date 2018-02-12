@@ -39,4 +39,26 @@ class BinarySearch
       return recursive(list[(mid + 1)...list.size], item)
     end
   end
+
+  def self.matrix(matrix, item)
+    max = matrix.size - 1
+    min = 0
+
+    while min != max
+      mid = (max + min) / 2
+      sub_list = matrix[mid]
+
+      if item.between?(sub_list.min, sub_list.max)
+        return iterative(sub_list, item)
+      elsif item < sub_list.min
+        # Look at bottom half of list
+        max = mid
+      else
+        # Look at bottom half of list
+        min = mid + 1
+      end
+    end
+
+    return false
+  end
 end
