@@ -45,6 +45,24 @@ describe BinarySearch do
         expect(BinarySearch.iterative(@nums, 11)).to eq(false)
       end
     end
+
+    context "edge cases" do
+      it "handles empty" do
+        expect(BinarySearch.iterative([], 1)).to eq(false)
+      end
+
+      it "handles 1 element" do
+        expect(BinarySearch.iterative([1], 1)).to eq(true)
+      end
+
+      it "handles 2 elements" do
+        expect(BinarySearch.iterative([1, 3], 2)).to eq(false)
+      end
+
+      it "handles elements outside of range" do
+        expect(BinarySearch.iterative([1, 1], 0)).to eq(false)
+      end
+    end
   end
 
   describe ".recursive" do
@@ -143,6 +161,28 @@ describe BinarySearch do
 
       it "returns false if not found in the list" do
         expect(BinarySearch.matrix(@nums, 11)).to eq(false)
+      end
+    end
+
+    context "edge cases" do
+      it "handles empty" do
+        expect(BinarySearch.matrix([[]], 1)).to eq(false)
+      end
+
+      it "handles 1 element" do
+        expect(BinarySearch.matrix([[1]], 1)).to eq(true)
+      end
+
+      it "handles 2 elements" do
+        expect(BinarySearch.matrix([[1, 3]], 3)).to eq(true)
+      end
+
+      it "handles same elements" do
+        expect(BinarySearch.matrix([[1, 1]], 0)).to eq(false)
+      end
+
+      it "handles single blocks" do
+        expect(BinarySearch.matrix([[1], [3]], 0)).to eq(false)
       end
     end
   end
