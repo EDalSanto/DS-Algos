@@ -1,10 +1,6 @@
 class BinarySearch
-  def initialize(list)
-    @list = list
-  end
-
   # NOTE: assumes sorted list
-  def iterative(item)
+  def self.iterative(list, item)
     max = list.size - 1
     min = 0
 
@@ -26,11 +22,21 @@ class BinarySearch
     return false
   end
 
-  def recursive(item)
+  def self.recursive(list, item)
+    if list.empty?
+      return false
+    end
 
+    mid = list.size / 2
+
+    if list[mid] == item
+      return true
+    elsif item < list[mid]
+      # First half of list not including midpoint
+      return recursive(list[0...mid], item)
+    else
+      # Second half of list not including midpoint
+      return recursive(list[(mid + 1)...list.size], item)
+    end
   end
-
-  private
-
-  attr_reader :list
 end
