@@ -1,41 +1,33 @@
 import heapq
 
-def calculate_distances(graph, starting_vertex):
+# Brute forces to find absolute shortest paths
+def calculate_shortest(graph, starting_vertex):
     # Initialize distances starting_vertex to other vertices to infinity
-    distances = {vertex: float('infinity') for vertex in graph}
-    # starting to itself is of course 0
-    distances[starting_vertex] = 0
+    res = {vertex: { "distance": float('infinity'), "previous_vertex": None } for vertex in graph}
+    # starting_vertex to itself is of course 0
+    res[starting_vertex]["distance"] = 0
 
-    entry_lookup = {}
+    # Initialize priority queue as heap with first node
     pq = []
-
-    #
-    for vertex, distance in distances.items():
-        entry = [distance, vertex]
-        # Maintain a mapping of vertices to entries in our queues
-        entry_lookup[vertex] = entry
-        # heaps => binary trees for which every parent node has a value less than
-        # or equal to any of its children
-        # using heap ensures always getting smallest distance
-        heapq.heappush(pq, entry)
+    heapq.heappush(pq, [0, starting_vertex])
 
     while len(pq) > 0:
-        # Get the neighbor vertex with the lowest overall cost,
-        # which bubbles its way to the top of priority queue
+        # Get the vertex from the pq with the lowest overall cost,
+        # which bubbles its way to the top because minheap
         current_distance, current_vertex = heapq.heappop(pq)
 
         # Check to see if vertices distances to neighbors less than already found
         for neighbor, neighbor_distance in graph[current_vertex].items():
-            # account for distance from previous vertex
-            distance = distances[current_vertex] + neighbor_distance
-            # if new found distance to vertice less than already found
-            if distance < distances[neighbor]:
-                # update distances
-                distances[neighbor] = distance
-                entry_lookup[neighbor][0] = distance
+            new_distance = res[current_vertex]["distance"] + neighbor_distance
 
-    print(entry_lookup)
-    return distances
+            if new_distance < res[neighbor]["distance"]:
+                res[neighbor]["distance"] = new_distance
+                res[neighbor]["previous_vertex"] =  current_vertex
+
+                # add neighbor to queue to further explore
+                heapq.heappush(pq, [distance, neighbor])
+
+    return res
 
 
 example_graph = {
@@ -44,7 +36,7 @@ example_graph = {
     'W': {'V': 3, 'U': 5, 'X': 3, 'Y': 1, 'Z': 5},
     'X': {'U': 1, 'V': 2, 'W': 3, 'Y': 1},
     'Y': {'X': 1, 'W': 1, 'Z': 1},
-    'Z': {'W': 5, 'Y': 1},
+    'Z': {'W': 5, 'Y': 1}
 }
 
-print(calculate_distances(example_graph, 'U'))
+print(calculate_shortest(example_graph, 'U'))

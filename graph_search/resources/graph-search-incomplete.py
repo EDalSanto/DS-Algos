@@ -114,6 +114,9 @@ def dijkstras(grid, starting_point):
 
     print(distances)
 
+    visited = []
+    unvisited = []
+
 
 def a_star(grid, starting_point, goal_location):
     raise NotImplementedError()
