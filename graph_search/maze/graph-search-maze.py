@@ -2,9 +2,10 @@
 
 from collections import deque
 import copy
-from heapq import heappush, heappop
+import heapq
 from pprint import pprint
 import random
+import pdb
 
 # Constants for readability
 START = S = 'S'
@@ -17,7 +18,7 @@ TREE = T = '^'
 def main():
     little_world()
     big_world()
-    random_world(40, 40)
+#    random_world(40, 40)
 
 # Get's all nodes with edges to location as long as not wall
 def get_successor_states(grid, location):
@@ -63,7 +64,6 @@ def BFS(grid, starting_point):
         neighbors = get_successor_states(grid, current_location)
         for neighbor in neighbors:
             if neighbor not in explored:
-                nrow, ncol = neighbor
                 frontier.append((neighbor, current_location))
 
         explored[current_location] = parent
@@ -71,7 +71,7 @@ def BFS(grid, starting_point):
     return explored
 
 def DFS(grid, starting_point):
-    # stack that monitors which nodes to visit next
+    # identical to BFS except frontier will behave like stack
     frontier = []
     # keeps track of nodes explored from parent
     explored = {}
@@ -99,7 +99,6 @@ def DFS(grid, starting_point):
         neighbors = get_successor_states(grid, current_location)
         for neighbor in neighbors:
             if neighbor not in explored:
-                nrow, ncol = neighbor
                 frontier.append((neighbor, current_location))
 
         # marks current_location as visited
@@ -107,16 +106,62 @@ def DFS(grid, starting_point):
 
     return explored
 
+# just like BFS but using priority queue for frontier
+#   priority queue => queue sorted by weight
 def dijkstras(grid, starting_point):
-    distances = {}
-    for row in grid:
-        for col in row:
+    # Create dictionary for weights at O(V)
+    weights = {}
+    for ridx, row in enumerate(grid):
+        for cidx, col in enumerate(row):
+            # Each node represented by coordinates
+            weights[(ridx, cidx)] = float("infinity")
 
-    print(distances)
+    # Starting point has weight 0 from itself
+    weights[starting_point] = 0
 
-    visited = []
-    unvisited = []
+    # Nodes to visit
+    frontier = []
+    # Add initial node to frontier
+    #   each element is (weight, current_location, from_location(previous))
+    heapq.heappush(frontier, (0, starting_point, None)) # No from for initial node
 
+    # All the nodes we have explored
+    # explored[current_location] = parent
+    explored = {}
+
+    # while still unvisited nodes
+    while len(frontier) > 0:
+        # heappop => log(N)
+        current_weight, current_location, parent = heapq.heappop(frontier)
+        row, col = current_location
+
+        if current_location in explored:
+            continue
+        elif grid[row][col] == GOAL:
+            explored[current_location] = parent
+            return explored
+
+        neighbors = get_successor_states(grid, current_location)
+        for neighbor in neighbors:
+            if neighbor not in explored:
+                # Find weight from starting_point
+                nrow, ncol = neighbor
+                if grid[nrow][ncol] == NORMAL:
+                    weight = weights[current_location] + 1
+                elif grid[nrow][ncol] == TREE:
+                    weight = weights[current_location] + 2
+
+                # new distance from starting_point to node costs less?
+                if weight < weights[neighbor]:
+                    # Update shortest distance to neighbor
+                    weights[neighbor] = weight
+                    # Add to priority queue - also log(N)
+                    heapq.heappush(frontier, (weight, neighbor, current_location))
+
+        # Mark current location as visited
+        explored[current_location] = parent
+
+    return explored
 
 def a_star(grid, starting_point, goal_location):
     raise NotImplementedError()
@@ -169,12 +214,12 @@ def random_world(rows, cols):
 
 def compare(grid_world, starting_point, goal_point):
     # BFS
-   # explored = BFS(grid_world, starting_point)
-   # visualize_result(grid_world, explored, goal_point, "BFS")
+    explored = BFS(grid_world, starting_point)
+    visualize_result(grid_world, explored, goal_point, "BFS")
 
-   # # DFS
-   # explored = DFS(grid_world, starting_point)
-   # visualize_result(grid_world, explored, goal_point, "DFS")
+    # DFS
+    explored = DFS(grid_world, starting_point)
+    visualize_result(grid_world, explored, goal_point, "DFS")
 
     # Dijkstra's
     explored = dijkstras(grid_world, starting_point)

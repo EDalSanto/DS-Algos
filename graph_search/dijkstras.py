@@ -20,12 +20,13 @@ def calculate_shortest(graph, starting_vertex):
         for neighbor, neighbor_distance in graph[current_vertex].items():
             new_distance = res[current_vertex]["distance"] + neighbor_distance
 
+            # update neighbors shortest distance and prev to start
             if new_distance < res[neighbor]["distance"]:
                 res[neighbor]["distance"] = new_distance
                 res[neighbor]["previous_vertex"] =  current_vertex
 
                 # add neighbor to queue to further explore
-                heapq.heappush(pq, [distance, neighbor])
+                heapq.heappush(pq, [new_distance, neighbor])
 
     return res
 
