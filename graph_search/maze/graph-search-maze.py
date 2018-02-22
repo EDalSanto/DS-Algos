@@ -18,7 +18,7 @@ TREE = T = '^'
 def main():
     little_world()
     big_world()
-#    random_world(40, 40)
+    random_world(40, 40)
 
 # Get's all nodes with edges to location as long as not wall
 def get_successor_states(grid, location):
@@ -137,6 +137,7 @@ def dijkstras(grid, starting_point):
 
         if current_location in explored:
             continue
+        # Neighbor discovered that is goal node, bubbles to the top
         elif grid[row][col] == GOAL:
             explored[current_location] = parent
             return explored
@@ -164,8 +165,75 @@ def dijkstras(grid, starting_point):
 
     return explored
 
+def manhattan_distance(loc1, loc2):
+    x1, x2 = loc1[0], loc2[0]
+    y1, y2 = loc1[1], loc2[1]
+    return abs(x2 - x1) + abs(y2 - y1)
+
 def a_star(grid, starting_point, goal_location):
-    raise NotImplementedError()
+    # Create dictionary for weights at O(V)
+    weights = {}
+    for ridx, row in enumerate(grid):
+        for cidx, col in enumerate(row):
+            # Each node represented by coordinates
+            weights[(ridx, cidx)] = float("infinity")
+
+    # Starting point has weight 0 from itself
+    weights[starting_point] = 0
+
+    # Nodes to visit
+    frontier = []
+    # Add initial node to frontier
+    #   each element is (weight, current_location, from_location(previous))
+    heapq.heappush(frontier, (0, starting_point, None)) # No from for initial node
+
+    # All the nodes we have explored
+    # explored[current_location] = parent
+    explored = {}
+
+    # while still unvisited nodes
+    while len(frontier) > 0:
+        # heappop => log(N)
+        current_weight, current_location, parent = heapq.heappop(frontier)
+        row, col = current_location
+
+        if current_location in explored:
+            continue
+        # Neighbor discovered that is goal node, bubbles to the top
+        elif grid[row][col] == GOAL:
+            explored[current_location] = parent
+            return explored
+
+        neighbors = get_successor_states(grid, current_location)
+        for neighbor in neighbors:
+            if neighbor not in explored:
+                # instead of checking if neighbor hasn't been visited
+                # check if new path to location is
+                # better than previous (i.e., less weight)
+                nrow, ncol = neighbor
+                if grid[nrow][ncol] == NORMAL:
+                    weight = weights[current_location] + 1
+                elif grid[nrow][ncol] == TREE:
+                    weight = weights[current_location] + 2
+
+               # new distance from starting_point to neighbor node costs less?
+                if weight < weights[neighbor]:
+                    # Update shortest distance to neighbor
+                    weights[neighbor] = weight
+
+                    # Min dif from dijkastras
+                    # estimate how close does this neighbor get to goal
+                    # any neighbor that moves us closer will be prioritized more in queue
+                    priority_weight = weight + manhattan_distance(goal_location, neighbor)
+
+                    # Add to priority queue - also log(N)
+                    heapq.heappush(frontier, (priority_weight, neighbor, current_location))
+
+        # Mark current location as visited
+        explored[current_location] = parent
+
+    return explored
+
 
 # Setup code below this point, you should not need to modify any code below:
 def little_world():
@@ -227,8 +295,8 @@ def compare(grid_world, starting_point, goal_point):
     visualize_result(grid_world, explored, goal_point, "Dijkstra's")
 
     ## A*
-    #explored = a_star(grid_world, starting_point, goal_point)
-    #visualize_result(grid_world, explored, goal_point, "A-Star")
+    explored = a_star(grid_world, starting_point, goal_point)
+    visualize_result(grid_world, explored, goal_point, "A-Star")
 
 # For pretty printing
 class color:
