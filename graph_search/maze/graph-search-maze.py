@@ -143,20 +143,21 @@ def dijkstras(grid, starting_point):
 
         neighbors = get_successor_states(grid, current_location)
         for neighbor in neighbors:
-            if neighbor not in explored:
-                # Find weight from starting_point
-                nrow, ncol = neighbor
-                if grid[nrow][ncol] == NORMAL:
-                    weight = weights[current_location] + 1
-                elif grid[nrow][ncol] == TREE:
-                    weight = weights[current_location] + 2
+            # instead of checking if neighbor hasn't been visited
+            # check if new path to location is
+            # better than previous (i.e., less weight)
+            nrow, ncol = neighbor
+            if grid[nrow][ncol] == NORMAL:
+                weight = weights[current_location] + 1
+            elif grid[nrow][ncol] == TREE:
+                weight = weights[current_location] + 2
 
-                # new distance from starting_point to node costs less?
-                if weight < weights[neighbor]:
-                    # Update shortest distance to neighbor
-                    weights[neighbor] = weight
-                    # Add to priority queue - also log(N)
-                    heapq.heappush(frontier, (weight, neighbor, current_location))
+            # new distance from starting_point to neighbor node costs less?
+            if weight < weights[neighbor]:
+                # Update shortest distance to neighbor
+                weights[neighbor] = weight
+                # Add to priority queue - also log(N)
+                heapq.heappush(frontier, (weight, neighbor, current_location))
 
         # Mark current location as visited
         explored[current_location] = parent
