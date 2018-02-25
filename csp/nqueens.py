@@ -69,24 +69,15 @@ class Solution:
 
     def solveNQueensUtil(self, num_queens, solutions, position_manager, current_row):
         if len(position_manager.get_positions()) == num_queens:
-            solutions.append(position_manager.get_positions())
+            solutions.append(position_manager.get_positions().copy())
             return True
 
-        for col in range(self.starting_col(solutions, current_row), num_queens):
+        for col in range(0, num_queens):
             current_position = (current_row, col)
             if position_manager.valid_placement(current_position):
                 position_manager.add(current_position)
-                solved = self.solveNQueensUtil(num_queens, solutions, position_manager, current_row + 1)
-                if solved:
-                    # Look for other solutions
-                    position_manager.reset_positions()
-                    new_solution = self.solveNQueensUtil(num_queens, solutions, position_manager, 0)
-                    if not new_solution:
-                        return False
-                elif len(position_manager.get_positions()) == 0:
-                    return False
-                else:
-                    position_manager.remove_last()
+                self.solveNQueensUtil(num_queens, solutions, position_manager, current_row + 1)
+                position_manager.remove_last()
         return False
 
     # starting col for first queen should always start after last solved col
@@ -100,3 +91,4 @@ class Solution:
 
 solution = Solution()
 print(solution.solveNQueens(4))
+print(len(solution.solveNQueens(8)) == 92)
