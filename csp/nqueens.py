@@ -67,21 +67,36 @@ class Solution:
         self.solveNQueensUtil(n, solutions, position_manager, current_row)
         return solutions
 
-    def solveNQueensUtil(self, n, solutions, position_manager, current_row):
-        if len(position_manager.get_positions()) == n:
+    def solveNQueensUtil(self, num_queens, solutions, position_manager, current_row):
+        if len(position_manager.get_positions()) == num_queens:
             solutions.append(position_manager.get_positions())
             return True
-        for col in range(0, n):
+
+        for col in range(self.starting_col(solutions, current_row), num_queens):
             current_position = (current_row, col)
             if position_manager.valid_placement(current_position):
                 position_manager.add(current_position)
-                solved = self.solveNQueensUtil(n, solutions, position_manager, current_row + 1)
+                solved = self.solveNQueensUtil(num_queens, solutions, position_manager, current_row + 1)
                 if solved:
-                    return True
+                    # Look for other solutions
+                    position_manager.reset_positions()
+                    new_solution = self.solveNQueensUtil(num_queens, solutions, position_manager, 0)
+                    if not new_solution:
+                        return False
+                elif len(position_manager.get_positions()) == 0:
+                    return False
                 else:
                     position_manager.remove_last()
         return False
 
+    # starting col for first queen should always start after last solved col
+    # to find all solutions
+    def starting_col(self, solutions, current_row):
+        if not len(solutions) == 0 and current_row == 0:
+            last_solved_col = solutions[-1][0][1]
+            return last_solved_col + 1
+        else:
+            return 0
 
 solution = Solution()
 print(solution.solveNQueens(4))
