@@ -23,12 +23,6 @@ class PositionManager:
     def __init__(self):
         self.positions = []
 
-    def reset_positions(self):
-        self.positions = []
-
-    def get_positions(self):
-        return self.positions
-
     def remove_last(self):
         self.positions.pop()
 
@@ -37,38 +31,56 @@ class PositionManager:
 
     def valid_placement(self, position):
         """
-        check same column and diagonals
+        check if same column and and in diagonals path
         row already accounted for
         """
         row, col = position
 
-        if any(col == position[1] for position in self.positions):
+        if self._column_conflict(col):
             return False
-        elif any((row - col) == (position[0] - position[1]) for position in self.positions):
+        elif self._descending_diagnoal_conflict(row, col):
             return False
-        elif any((row + col) == (position[0] + position[1]) for position in self.positions):
+        elif self._ascending_diagonal_conflict(row, col):
             return False
         else:
             return True
 
+    def all_queens_placed_for(self, num_queens):
+        return len(self.positions) == num_queens
+
+    def get_positions(self):
+        return self.positions
+
+    def _ascending_diagonal_conflict(self, row, col):
+        return any((row + col) == (position[0] + position[1]) for position in self.positions)
+
+    def _descending_diagnoal_conflict(self, row, col):
+        return any((row - col) == (position[0] - position[1]) for position in self.positions)
+
+    def _column_conflict(self, col):
+        return any(col == filled_col for filled_col in self._get_cols())
+
+    def _get_cols(self):
+        return map(lambda position: position[1], self.positions)
+
 class Solution:
-    def solveNQueens(self, n):
+    def solveNQueens(self, num_queens):
         """
         :type n: int
         :rtype: List[List[str]]
 
         Algorithm
-        define base condition where if len(positions) == n we have a solution
+        define base condition where if all queens are placed we have a solution
         check if solution exists starting at first row queen at next column
         """
         solutions = []
         position_manager = PositionManager()
         current_row = 0
-        self.solveNQueensUtil(n, solutions, position_manager, current_row)
+        self.solveNQueensUtil(num_queens, solutions, position_manager, current_row)
         return solutions
 
     def solveNQueensUtil(self, num_queens, solutions, position_manager, current_row):
-        if len(position_manager.get_positions()) == num_queens:
+        if position_manager.all_queens_placed_for(num_queens):
             solutions.append(position_manager.get_positions().copy())
             return True
 
@@ -79,15 +91,6 @@ class Solution:
                 self.solveNQueensUtil(num_queens, solutions, position_manager, current_row + 1)
                 position_manager.remove_last()
         return False
-
-    # starting col for first queen should always start after last solved col
-    # to find all solutions
-    def starting_col(self, solutions, current_row):
-        if not len(solutions) == 0 and current_row == 0:
-            last_solved_col = solutions[-1][0][1]
-            return last_solved_col + 1
-        else:
-            return 0
 
 solution = Solution()
 print(solution.solveNQueens(4))
