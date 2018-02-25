@@ -80,28 +80,3 @@ def combinations_fixed_length_string(chars, result_string, length):
 # CA
 # CB
 # CC
-
-# N-Queens(grid, queens_left) can solve for all N greater than 3
-# if queens_left zero?
-    # return true (or maybe the board?)
-# for r in grid
-    # for c in grid[r]
-        # if valid_choice(grid, r, c) place queen
-            # solved = n-queens(grid, queens_left)
-            # if solved
-                # return true
-            # else
-                # remove queen
-# return false
-# Optimizations
-    # have grid represent valid placements and update when making placement instead of valid_choice func
-
-# Sudoku
-
-# General recursive backtracking approach
-    # base case to return to
-    # iterate through everything
-    # try some path if valid move
-    # recurse with new state
-    # backtrack if recurse doesn't work out
-    # return negative results at end if nothing works out
