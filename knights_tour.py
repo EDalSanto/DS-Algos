@@ -3,21 +3,24 @@ A knight's tour is a sequence of moves of a knight on a chessboard such that the
 If the knight ends on a square that is one knight's move from the beginning square (so that it could tour the board again immediately, following the same path), the tour is closed, otherwise it is open.
 """
 
-def solve(board, initial_position, current_position):
+def solve(board, initial_position, current_position, path):
     """
     board: a 2D array representing the current board state
     initial_position: an x, y coordinate for where the knight started
     current_position: an x, y coordinate for where the knight currently is
     """
     if all_visited(board):
+        print(path)
         return True
 
     for move in movement_detective(board, current_position):
         current_position = make_move(board, current_position, move)
-        solved = solve(board, initial_position, current_position)
+        path.append(current_position)
+        solved = solve(board, initial_position, current_position, path)
         if solved:
             return True
         else:
+            path.pop()
             current_position = backtrack(board, current_position, move)
 
     return False
@@ -82,4 +85,5 @@ MOVE_OFFSETS = (
 initial_position = (0, 0)
 current_position = initial_position
 board = create_board(initial_position)
-solve(board, initial_position, current_position)
+path = [(0,0)]
+solve(board, initial_position, current_position, path)
