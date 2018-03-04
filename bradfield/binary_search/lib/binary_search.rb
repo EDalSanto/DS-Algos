@@ -13,8 +13,8 @@ class BinarySearch
       elsif current > item
         # Look at bottom half of list
         right = mid - 1
-      else
-        # Look at bottom half of list
+      else # current < item
+        # Look at top half of list
         left = mid + 1
       end
     end
