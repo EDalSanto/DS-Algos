@@ -3,85 +3,67 @@
 Notes taken from time taking [this course at Bradfield School of Computer Science in SF](https://bradfieldcs.com/courses/algorithms/)
 ### Technical Problem Solving and Analysis
 #### [How to Solve It](https://www.amazon.com/How-Solve-Mathematical-Princeton-Science/dp/069111966X)
-* **Understand** the **Problem**
-  * What is the unknown? What are the data? What is the condition?
-    * **Draw** a **figure**
-    * Separate various parts of the condition
-  * Devising a **Plan**
-    * Find a connection between the data and the unknown
-    * Think of related problems
-    * Try to solved a related or more accessible problem
-  * Carrying out the plan
-    * Check each step
-    * Each step correct?
-    * Can you prove that each step is correct?
-  * **Look**ing **Back**
-    * Examine the solution obtained
-      * Can you check the result? Can you check the Argument?
-      * Can you derive the result differently?
-      * Can you use the result / method for some other problem?
-  * Forward
-    * Hardest part of solving a problem => understanding precisely what the problem says
-    * if you can’t solve a problem, then there is an easier problem you can’t solve: find it
-  * Helping the Student
-    * Teacher should help, but too much and not too little, so that the student shall have a reasonable share of work
-    * **Solving problems like any practical skill** => you obtain it by **imitation** and **practice**
-    * Main Divisions, Main Questions
-      * Four Phases
-        * Trying to find a solution, we may repeatedly change our point of view, our way of looking at a problem
-          * Conception of problem incomplete when we start work, changes when we have made progress, again different once we have obtained solution
-          * Making plan before execution can save lots of steps..my problem at times when feeling worrying
-        * Understand Problem => see clearly what is required
-          * Write down **flow** of situation, actors involved
-        * See how the various items are connected, how the unknown is linked to the data => obtain the idea of the solution to make a plan
-          * Think / write tests
-        * Carry out Plan
-          * code
-        * Look back at solution and examine
-          * Refactor
-      * Devising a Plan
-        * Have a plan when => known calculations, computations, or constructions we have to perform in order to obtain the unknown
-        * Look at the unknown => try to think of a familiar problem having the same or a similar unknown?
+* Forward
+  * Hardest part of solving a problem => understanding precisely what the problem says
+  * if you can’t solve a problem, then there is an easier problem you can’t solve: find it
+* Helping the Student
+  * Teacher should help, but too much and not too little, so that the student shall have a reasonable share of work
+  * **Solving problems like any practical skill** => you obtain it by **imitation** and **practice**
+  * Main Divisions, Main Questions
+    * Four Phases
+      * Trying to find a solution, we may repeatedly change our point of view, our way of looking at a problem
+        * Conception of problem incomplete when we start work, changes when we have made progress, again different once we have obtained solution
+        * Making plan before execution can save lots of steps
+      * **Understand Problem** => see clearly what is required
+        * Write down **flow** of situation, actors involved
         * Could you restate problem?
-        * If you cannot solve the proposed problem, try to solve first some related problem
-    * Class
-      * Multiple ways to skin a cat with different **trade offs**
-      * **Big O**
-        * **estimate** of the **cost** in terms of the input for space or time
-          * Input size can change which algorithm is best => i.e., dif sorting algorithms for dif situations
-        * **Upper bound** => as N gets very large, our function will prob take up more performance than characterization
-        * **Amortized** => on **average**
-        * Computer **hardware** can **affect** **actual** **performance** of function that differs greatly from big O
-        * **Log(n)** => **number** of **digits** in base
-      * Steps problem => can take 1 or 2 steps to complete all steps
-        * Fibonacci pattern => recognizing problems you already know
-    * Further
-      * Hammock Driven Development
-        * Least expensive to find bugs in design
-          * **Biggest** **problems** in **software** are problems of **misconception** usually
-        * **Focus**ing on **same** **problem** for a **long** **period** (**at least 1 hour uninterrupted**) of time
-        * Use **Waking Mind** time to **feed** **work** **to background mind**
-        * get **away** **from** **computer**
-      * Skiena ADM
-        * Intro
-          * Think of counterexamples to heuristic
-            * Small examples
-            * Think about ties with your decision criteria
-            * Extremes of big and small input
-      * Algos/Analysis
-        * The Big Picture
-          * **Program time and space depends on**
-            * Inputs => grepping over many files takes longer than fewer
-            * How long it takes computer to execute every instruction
-            * What language you use
-            * What other programming are running at the same time
-            * How many cores your machine uses
-          * **Algorithm analysis** => compare the time and space efficiency of programs with respect to their possible inputs, but **irrespective** **of** **context** (mentioned above)
-        * Big O Notation
-          * Algorithm’s execution time => **number** of **steps** **required** **to** **solve** the **problem**
-            * Independent of any particular program or computer
-          * **T(n)** => **time** it **takes** to **solve** a **problem** of **size** **n**
-          * [Cheat sheet](http://bigocheatsheet.com/)
+      * See **how the various items** are **connected**, how the unknown is linked to the data => obtain the idea of the solution to make a plan
+        * Think / write tests
+      * Carry out Plan
+        * code
+      * Look back at solution and examine
+        * **Refactor**
+
+      * If you cannot solve the proposed problem, try to solve first some related problem
+  * Class
+    * Multiple ways to skin a cat with different **trade offs**
+    * **Big O**
+      * **estimate** of the **cost** in terms of the input for space or time
+        * Input size can change which algorithm is best => i.e., dif sorting algorithms for dif situations
+      * **Upper bound** => as N gets very large, our function will prob take up more performance than characterization
+      * **Amortized** => on **average**
+      * Computer **hardware** can **affect** **actual** **performance** of function that differs greatly from big O
+      * **Log(n)** => **number** of **digits** in base
+      ![alt text][BigO]
+    * Steps problem => can take 1 or 2 steps to complete all steps
+      * Fibonacci pattern => recognizing problems you already know
+  * Further
+    * [Hammock Driven Development](https://www.youtube.com/watch?v=f84n5oFoZBc)
+      * Least expensive to find bugs in design
+        * **Biggest** **problems** in **software** are problems of **misconception** usually
+      * **Focus**ing on **same** **problem** for a **long** **period** (**at least 1 hour uninterrupted**) of time
+      * Use **Waking Mind** time to **feed** **work** **to background mind**
+      * get **away** **from** **computer**
+    * Skiena ADM
+      * Intro
+        * Think of counterexamples to heuristic
+          * Small examples
+          * Think about ties with your decision criteria
+          * Extremes of big and small input
+    * Algos/Analysis
+      * The Big Picture
+        * **Program time and space depends on**
+          * Inputs => grepping over many files takes longer than fewer
+          * How long it takes computer to execute every instruction
+          * What language you use
+          * What other programming are running at the same time
+          * How many cores your machine uses
+        * **Algorithm analysis** => compare the time and space efficiency of programs with respect to their possible inputs, but **irrespective** **of** **context** (mentioned above)
+      * Big O Notation
+        * Algorithm’s execution time => **number** of **steps** **required** **to** **solve** the **problem**
+          * Independent of any particular program or computer
+        * **T(n)** => **time** it **takes** to **solve** a **problem** of **size** **n**
+        * [Cheat sheet](http://bigocheatsheet.com/)
 #### Data Structures
 * Linear data structures => once an item is added, it stays in the same position relative to its neighbors
   * /[algos](https://bradfieldcs.com/algos/)
