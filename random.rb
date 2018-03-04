@@ -1,6 +1,7 @@
 # Balanced parenthesis
 
 # ex. ((())))
+# assumes only parens as input
 def balanced_parens?(expression)
   stack = []
   opening_parens = "("
