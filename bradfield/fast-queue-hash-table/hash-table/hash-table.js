@@ -41,7 +41,7 @@ class List {
   addNode(hashItem) {
     let existingNode = this.findNodeFor(hashItem.key)
 
-    if (this.size === 0) {
+    if (this.emptyList()) {
       this.__head = hashItem;
       this.__tail = hashItem;
     } else if (existingNode) {
@@ -69,6 +69,7 @@ class List {
       }
     }
 
+    // Key does not exist
     return undefined;
   }
 
@@ -78,7 +79,7 @@ class List {
     // No node for key in list
     if (node === undefined) { return undefined; }
 
-    // Shift head node
+    // Shift head node if head
     if (node === this.__head) {
       this.__head = node.next;
     }
@@ -94,6 +95,10 @@ class List {
     }
 
     this.size--;
+  }
+
+  emptyList() {
+    return this.size === 0;
   }
 }
 
@@ -122,8 +127,10 @@ class HashTable {
   set(key, value) {
     let hashItem = new HashItem(key, value);
 
-    // compute hash and mod by size
+    // compute hash and mod by size get index
     let index = this.indexFor(key);
+
+    // check if list already allocated at current index
     let list = this.__array[index];
 
     if (list) {
