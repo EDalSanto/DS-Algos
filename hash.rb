@@ -13,6 +13,7 @@ class PrimeHashFunction
     hash
   end
 end
+bucket_for_key = PrimeHashFunction.call("key") % num_buckets
 
 class HashItem
   attr_reader :key, :vaue, :next, :previous
@@ -309,10 +310,12 @@ end
 # Bins:   0.800000   0.010000   0.810000 (0.794712)
 # Linear: 8.610000   0.010000   8.620000 (8.613498)
 
-# Open Addressing
+## Ruby 2.4 Hash
+#
+# Initializes Hash
 hash = {a: 10, b: 20, c: 30, d: 40}
 
-# Ruby creates 2 arrays
+# Creates 2 arrays
 
 entries = [
   [hash_value_a,:a,10],
@@ -342,7 +345,7 @@ bins = [
 ]
 
 # example add new entry
-#hash[:e] = 42
+hash[:e] = 42
 # Find hash using ruby's internal hash function
 hash_of_e = e.hash
 # append entry to entries array and notes index where stored
