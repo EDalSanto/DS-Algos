@@ -9,8 +9,6 @@ const DEFAULT_HASH_FUNCTION = function(inputString) {
   for (let i = 0; i < inputString.length; i++) {
     let charCode = inputString.charCodeAt(i)
     hash = (primeNumber * hash) + charCode;
-    hash |= 0; //Cast to 32 bits, significantly improves collision rate
-    // ?
   }
 
   return hash;
@@ -124,7 +122,7 @@ class HashTable {
     @param {string} key
     @param {any} value
   */
-  set(key, value) {
+  insert(key, value) {
     let hashItem = new HashItem(key, value);
 
     // compute hash and mod by size get index
@@ -143,11 +141,11 @@ class HashTable {
   }
 
   /**
-  setetrieve the value stored at the passed key. If the key contains no data, return undefined.
+  retrieve the value stored at the passed key. If the key contains no data, return undefined.
 
     @param {string} key
   */
-  get(key) {
+  search(key) {
     let index = this.indexFor(key);
     let list = this.__array[index];
 
@@ -169,7 +167,7 @@ class HashTable {
 
     @param {string} key
   */
-  remove(key) {
+  delete(key) {
     let index = this.indexFor(key);
     let list = this.__array[index];
 
