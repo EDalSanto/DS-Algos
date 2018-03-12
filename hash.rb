@@ -1,10 +1,13 @@
+
 class PrimeHashFunction
+  PRIME_NUMBER = 31
+
   def self.call(input_string)
     hash = 0
-    prime_number = 31
 
     input_string.chars.each do |char|
-      hash = (prime_number * hash) + char.ord
+      char_ascii_decimal_integer = char.ord
+      hash = (PRIME_NUMBER * hash) + char_ascii_decimal_integer
     end
 
     hash
@@ -198,7 +201,8 @@ end
     # number of entries to allow before rehashing: choosing the next largest power of 2 and recreating the hash table with new, larger size
   # default init_bin_size
 
-class RehashHash
+class MySuperSweetHash
+  # actual constants in Ruby
   STARTING_BINS = 16
   MAX_DENSITY = 5
 
@@ -210,7 +214,8 @@ class RehashHash
 
   def search(key)
     # entries are nodes in linked list in specific bin
-    find(key)
+    list = bin_for(key)
+    list.search_node(key)
   end
 
   def insert(key, value)
@@ -238,6 +243,7 @@ class RehashHash
 
   attr_reader :table
 
+  # distributes entries over bins
   def grow
     # use bit shifting to get the next power of 2 to resize table
     @bin_count = @bin_count << 1
@@ -305,7 +311,9 @@ end
 
 # Open Addressing
 hash = {a: 10, b: 20, c: 30, d: 40}
+
 # Ruby creates 2 arrays
+
 entries = [
   [hash_value_a,:a,10],
   [hash_value_b,:b,20],
@@ -334,7 +342,7 @@ bins = [
 ]
 
 # example add new entry
-hash[:e] = 42
+#hash[:e] = 42
 # Find hash using ruby's internal hash function
 hash_of_e = e.hash
 # append entry to entries array and notes index where stored
