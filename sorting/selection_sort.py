@@ -3,6 +3,7 @@ def swap(arr, first_index, second_index):
     arr[first_index] = arr[second_index]
     arr[second_index] = temp
 
+# inefficient would be arr.index(min(arr))
 def index_of_minimum(arr, starting_index):
     min_index = starting_index
     min_value = arr[starting_index]
